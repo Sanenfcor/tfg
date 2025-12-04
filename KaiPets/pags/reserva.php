@@ -8,7 +8,7 @@ session_start();
    1. Validar login
 ========================================== */
 if (empty($_SESSION['usuario'])) {
-    header("Location: /KaiPets/login.php");
+    header("Location: /KaiPets/php/login.php");
     exit;
 }
 
