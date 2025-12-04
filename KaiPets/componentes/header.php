@@ -35,11 +35,6 @@ $usuario = $_SESSION['usuario'] ?? null;
                     </ul>
                 </li>
 
-                <!-- NOSOTROS -->
-                <li class="nav-item">
-                    <a class="nav-link" href="/nosotros.php">Nosotros</a>
-                </li>
-
                 <!-- CIUDADES -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
@@ -61,7 +56,7 @@ $usuario = $_SESSION['usuario'] ?? null;
                 <?php if ($usuario): ?>
                     <a href="/KaiPets/pags/perfil.php" class="btn btn-kai-green btn-round ms-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                            viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.5"
+                            viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"
                             stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-user-round-check">
                             <path d="M2 21a8 8 0 0 1 13.292-6" />
@@ -71,7 +66,7 @@ $usuario = $_SESSION['usuario'] ?? null;
                     </a>
                 <?php else: ?>
                     <a href="/KaiPets/php/login.php" class="btn btn-kai-brown btn-round ms-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="#111" stroke-width="1.5" viewBox="0 0 24 24">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="#fff" stroke-width="1.5" viewBox="0 0 24 24">
                             <circle cx="12" cy="8" r="4" />
                             <path d="M4 21v-1a7 7 0 0 1 14 0v1" />
                         </svg>

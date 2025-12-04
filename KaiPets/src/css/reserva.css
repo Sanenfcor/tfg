@@ -1,0 +1,161 @@
+/* ======================================
+   PALETA GLOBAL KAI PETS
+====================================== */
+:root {
+    --verde-oscuro: #3E6B48;
+    --verde-claro: #809257;
+    --marron-oscuro: #8B5E3C;
+    --marron-claro: #C7A27C;
+    --crema: #F7F2E8;
+    --blanco: #FFFDF8;
+    --negro: #1e1c19;
+}
+
+/* ======================================
+   TITULOS
+====================================== */
+.reserva-title {
+    font-size: 2.3rem;
+    font-weight: 700;
+    color: var(--verde-oscuro);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* ======================================
+   CARD GENERAL
+====================================== */
+.reserva-card {
+    background: var(--blanco);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+    margin-bottom: 30px;
+    border: 1px solid var(--crema);
+}
+
+/* ============================================
+   TARJETA DEL CUIDADOR (ESTILO ANTERIOR)
+============================================ */
+
+.cuidador-info-card {
+    background: var(--blanco);
+    border-radius: 25px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    border: 1px solid var(--marron-claro);
+}
+
+.cuidador-info-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--marron-claro);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.cuidador-info-nombre {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--verde-oscuro);
+    margin-bottom: 4px;
+}
+
+.cuidador-info-barrio {
+    font-size: 1.05rem;
+    color: var(--marron-oscuro);
+    opacity: 0.85;
+    margin: 0;
+}
+
+
+/* ======================================
+   SELECTOR DE SERVICIOS
+====================================== */
+.reserva-servicio-btn {
+    border-radius: 18px !important;
+    padding: 15px !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: 2px solid var(--marron-claro) !important;
+    color: var(--marron-oscuro) !important;
+}
+
+.reserva-servicio-btn:hover {
+    background: var(--crema) !important;
+    color: var(--verde-oscuro) !important;
+}
+
+/* ======================================
+   FORMULARIO DE RESERVA
+====================================== */
+.reserva-form {
+    background: var(--blanco);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.reserva-form label {
+    font-weight: 600;
+    color: var(--marron-oscuro);
+}
+
+.reserva-form .form-control,
+.reserva-form .form-select {
+    border-radius: 12px;
+    border: 2px solid var(--crema);
+    padding: 12px;
+    background: var(--blanco);
+}
+
+.reserva-form .form-control:focus,
+.reserva-form .form-select:focus {
+    border-color: var(--verde-claro);
+    box-shadow: 0 0 0 0.15rem rgba(128,146,87,0.35);
+}
+
+/* ======================================
+   BOTÓN CONFIRMAR
+====================================== */
+.btn-confirmar {
+    background: var(--verde-oscuro) !important;
+    color: var(--blanco) !important;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 12px;
+}
+
+.btn-confirmar:hover {
+    background: var(--verde-claro) !important;
+}
+
+/* ======================================
+   SECCIONES DE FECHAS
+====================================== */
+.fecha-seccion {
+    border: 1px solid var(--crema);
+    background: #fffdf8;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.fecha-seccion label {
+    color: var(--marron-oscuro);
+}
+
+/* ======================================
+   RESPONSIVE
+====================================== */
+@media (max-width: 768px) {
+    .cuidador-mini-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cuidador-mini-card img {
+        margin-bottom: 10px;
+    }
+}

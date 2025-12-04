@@ -1,0 +1,162 @@
+/* =========================================
+   PALETA DE COLORES KAI PETS
+========================================= */
+:root {
+    --verde-oscuro: #3E6B48;
+    --verde-claro: #809257;
+    --marron-oscuro: #8B5E3C;
+    --marron-claro: #C7A27C;
+    --crema: #F7F2E8;
+    --blanco: #FFFDF8;
+    --negro: #1e1c19;
+}
+
+/* =========================================
+   HERO DEL SERVICIO
+========================================= */
+.hero-servicio {
+    height: 600px;
+    width: 90%;
+    margin: 30px auto;
+    border-radius: 20px;
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    aspect-ratio: 16 / 7; 
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-overlay {
+    background: rgba(0, 0, 0, 0.45);
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+
+.hero-overlay h1 {
+    color: var(--blanco);
+    font-size: 3rem;
+    text-shadow: 0 0 10px #000;
+}
+
+/* =========================================
+   BLOQUES DE INFO DEL SERVICIO
+========================================= */
+.servicio-desc {
+    background: var(--blanco);
+    border-radius: 20px;
+    padding: 25px;
+    max-width: 900px;
+    margin: 40px auto;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.info-card {
+    background: var(--crema);
+    padding: 25px;
+    border-radius: 25px;
+    max-width: 900px;
+    margin: 40px auto;
+    border: 2px solid var(--marron-claro);
+}
+
+/* =========================================
+   TARJETAS DE CUIDADORES PARA EL SERVICIO
+========================================= */
+.cuidador-card {
+    background: var(--blanco);
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    transition: .3s;
+}
+
+.cuidador-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+.cuidador-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.btn-kai {
+    background: var(--verde-oscuro);
+    color: var(--blanco);
+    border-radius: 35px;
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+.btn-kai:hover {
+    background: var(--verde-claro);
+}
+
+/* =========================================
+   PERFIL DEL CUIDADOR (ver_cuidador.php)
+========================================= */
+.cuidador-perfil-card img {
+    height: 260px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+/* Tarjeta general */
+.cuidador-profile-block {
+    padding: 25px;
+    border-radius: 25px;
+    background: var(--blanco);
+    border: 1px solid var(--marron-claro);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+    margin-bottom: 30px;
+}
+
+/* Lista de servicios */
+.list-group-item {
+    border-radius: 15px !important;
+    margin-bottom: 6px;
+    border: 1px solid var(--marron-claro);
+}
+
+/* Opiniones */
+.review-box {
+    border-radius: 15px;
+    padding: 15px;
+    background: var(--crema);
+    border-left: 6px solid var(--verde-oscuro);
+    margin-bottom: 15px;
+}
+
+/* Botón WhatsApp */
+.btn-whatsapp {
+    background: #25D366 !important;
+    color: white !important;
+    border-radius: 40px;
+    font-weight: 600;
+}
+
+/* Mapa */
+#map {
+    border-radius: 20px;
+    border: 2px solid var(--verde-claro);
+}
+
+/* Botón reservar */
+.btn-reservar {
+    background: var(--verde-oscuro);
+    color: var(--blanco);
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+.btn-reservar:hover {
+    background: var(--verde-claro);
+}

@@ -1,14 +1,28 @@
 /* ======================================
-   PALETA GLOBAL
+   PALETA GLOBAL KAI PETS
 ====================================== */
 :root {
   --verde-oscuro: #3E6B48;
-  --verde-claro: #809257; /*7CAF7C*/
+  --verde-claro: #7CAF7C;
   --marron-oscuro: #8B5E3C;
   --marron-claro: #C7A27C;
   --crema: #F7F2E8;
   --blanco: #FFFDF8;
   --negro: #1e1c19;
+}
+
+/* ======================================
+   GLOBAL
+====================================== */
+body {
+    background: var(--crema);
+    color: var(--negro);
+    font-family: 'Arial', sans-serif;
+}
+
+.card {
+    border-radius: 18px;
+    border: none;
 }
 
 /* ======================================
@@ -19,170 +33,129 @@
   border-bottom: 2px solid var(--marron-claro) !important;
 }
 
-.kai-header .kai-title {
+.kai-title {
   font-size: 1.7rem;
   font-weight: 700;
   color: var(--verde-oscuro) !important;
-  letter-spacing: 1px;
 }
 
-/* Navegación */
-.kai-header .navbar-nav .nav-link {
+.kai-header .nav-link {
   color: var(--marron-oscuro) !important;
   font-weight: 600;
 }
-
-.kai-header .navbar-nav .nav-link:hover {
+.kai-header .nav-link:hover {
   color: var(--verde-oscuro) !important;
 }
 
-/* Dropdown */
 .kai-header .dropdown-menu {
-  background: var(--blanco) !important;
-  border: 1px solid var(--marron-claro) !important;
+  background: var(--blanco);
+  border: 1px solid var(--marron-claro);
 }
-
-.kai-header .dropdown-item {
-  color: var(--marron-oscuro) !important;
-}
-
 .kai-header .dropdown-item:hover {
-  background: var(--crema) !important;
-  color: var(--verde-oscuro) !important;
+  background: var(--crema);
+  color: var(--verde-oscuro);
 }
 
 /* Botones */
-.btn-kai-brown {
-  background: var(--marron-oscuro) !important;
-  color: var(--blanco) !important;
-  font-weight: 600;
-}
-
-.btn-kai-brown:hover {
-  background: var(--marron-claro) !important;
-}
-
 .btn-kai-green {
-  background: var(--verde-oscuro) !important;
-  color: var(--blanco) !important;
-  font-weight: 600;
+    background: var(--verde-oscuro);
+    color: var(--blanco);
+    font-weight: 600;
+    border-radius: 20px;
 }
-
 .btn-kai-green:hover {
-  background: var(--verde-claro) !important;
+    background: var(--verde-claro);
 }
 
-.btn-round {
-  width: 42px;
-  height: 42px;
-  border-radius: 50% !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 !important;
+.btn-kai-brown {
+    background: var(--marron-oscuro);
+    color: var(--blanco);
+    font-weight: 600;
+}
+.btn-kai-brown:hover {
+    background: var(--marron-claro);
+}
+
+/* ======================================
+   HERO (banner principal)
+====================================== */
+.hero {
+    background: url('/KaiPets/src/img/hero_pets.jpg') center/cover no-repeat;
+    height: 600px;
+    width: 90%;
+    margin: 20px auto 0 auto;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-shadow: 0 0 10px black;
+}
+
+/* ======================================
+   TARJETAS DE CIUDADES Y CUIDADORES
+====================================== */
+.ciudad-card {
+    background: var(--blanco);
+    padding: 25px;
+    border-radius: 20px;
+    transition: .25s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.ciudad-card:hover {
+    transform: translateY(-5px);
+}
+
+.cuidador-card {
+    background: var(--blanco);
+    border-radius: 25px;
+    padding-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.cuidador-card img {
+    height: 360px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 25px 25px 0 0;
+}
+
+/* Opiniones */
+.valoracion {
+    color: gold;
+    font-size: 1.3rem;
+}
+
+/* ======================================
+   CAROUSEL - Botones personalizados
+====================================== */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 80px; /* más grandes y cómodos */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: var(--verde-oscuro);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    background-size: 60%;
+    padding: 10px;
+    filter: none !important; /* quita el filtro blanco default */
+}
+
+/* Hover */
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    background-color: var(--verde-claro);
 }
 
 /* ======================================
    FOOTER
 ====================================== */
 .kai-footer {
-  background: var(--crema) !important;
-  border-top: 2px solid var(--marron-claro) !important;
-  color: var(--marron-oscuro) !important;
-}
-
-.kai-footer h5 {
-  color: var(--verde-oscuro) !important;
-}
-
-.kai-footer p {
-  color: var(--marron-oscuro) !important;
-}
-
-/* ======================================
-   INDEX
-====================================== */
-
-/* CONTENEDOR GENERAL */
-.cuidadores-section {
-    margin-top: 50px;
-    margin-bottom: 60px;
-}
-
-/* TÍTULO */
-.cuidadores-title {
-    font-size: 2.2rem;
-    font-weight: 700;
-    text-align: center;
-    color: #5f3b1a;
-    margin-bottom: 25px;
-}
-
-/* CAROUSEL */
-#carouselCuidadores {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-/* SLIDES */
-.carousel-item {
-    text-align: center;
-    padding: 30px;
-}
-
-/* CARDS */
-.cuidador-card {
-    display: inline-block;
-    background: #fff;
-    border-radius: 25px;
-    padding: 25px;
-    width: 320px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    transition: transform .25s, box-shadow .25s;
-}
-
-.cuidador-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-}
-
-/* FOTO */
-.cuidador-img {
-    width: 160px;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 50%;
-    margin-bottom: 15px;
-    border: 4px solid #8f6a4f;
-}
-
-/* NOMBRE */
-.cuidador-nombre {
-    font-size: 1.35rem;
-    font-weight: bold;
-    color: #4d2e13;
-}
-
-/* CIUDAD */
-.cuidador-ciudad {
-    font-size: 1rem;
-    color: #876a52;
-    margin-bottom: 10px;
-}
-
-/* DESCRIPCIÓN */
-.cuidador-desc {
-    font-size: 0.95rem;
-    color: #665747;
-}
-
-/* BOTONES DEL CARRUSEL */
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    filter: invert(33%) sepia(18%) saturate(470%) hue-rotate(15deg) brightness(90%);
-}
-
-.carousel-control-prev,
-.carousel-control-next {
-    width: 8%;
+    background: var(--crema);
+    border-top: 2px solid var(--marron-claro);
+    color: var(--marron-oscuro);
+    padding: 20px;
 }

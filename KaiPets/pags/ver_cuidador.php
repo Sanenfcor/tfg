@@ -39,16 +39,6 @@ $stmt = $conn->prepare($sql_servicios);
 $stmt->execute([':id' => $id]);
 $servicios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Obtener disponibilidad → reservas confirmadas
-$sql_dispo = "
-    SELECT fecha_inicio, fecha_fin
-    FROM reservas
-    WHERE id_cuidador = :id AND estado_reserva = 'confirmada'
-";
-$stmt = $conn->prepare($sql_dispo);
-$stmt->execute([':id' => $id]);
-$ocupadas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 // Obtener valoraciones
 $sql_reviews = "
     SELECT r.*, u.nombre AS usuario_nombre
@@ -64,10 +54,7 @@ $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Calcular media
 $media = 0;
 if ($reviews) {
-    $total = 0;
-    foreach ($reviews as $r) {
-        $total += $r['puntuacion'];
-    }
+    $total = array_sum(array_column($reviews, 'puntuacion'));
     $media = round($total / count($reviews), 1);
 }
 
@@ -95,6 +82,7 @@ if ($coords) {
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/KaiPets/src/css/style.css">
+    <link rel="stylesheet" href="/KaiPets/src/css/servicio.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
@@ -105,11 +93,11 @@ if ($coords) {
 
 <div class="container mt-4">
 
-    <!-- Titulo -->
+    <!-- TÍTULO -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Cuidador: <?= htmlspecialchars($cuidador['nombre'] . ' ' . $cuidador['apellido']) ?></h2>
 
-        <button class="btn btn-primary" onclick="abrirReserva(<?= $cuidador['usuario_id'] ?>)">
+        <button class="btn btn-reservar" onclick="abrirReserva(<?= $cuidador['usuario_id'] ?>)">
             Reservar cuidador
         </button>
     </div>
@@ -117,21 +105,20 @@ if ($coords) {
     <div class="row">
         <!-- COLUMNA IZQUIERDA -->
         <div class="col-md-4">
-            <!-- Foto -->
-            <div class="card mb-3">
+
+            <!-- FOTO -->
+            <div class="cuidador-profile-block cuidador-perfil-card">
                 <img src="<?= htmlspecialchars($cuidador['foto_perfil'] ?: 'pred_usu.jpg') ?>"
-                     class="card-img-top">
-                <div class="card-body">
-                    <h5 class="card-title"><?= htmlspecialchars($cuidador['nombre']) ?></h5>
+                     alt="Foto cuidador">
+                <div class="mt-3">
+                    <h5><?= htmlspecialchars($cuidador['nombre']) ?></h5>
                     <p><strong>Email:</strong> <?= htmlspecialchars($cuidador['email']) ?></p>
                     <p><strong>Teléfono:</strong> <?= htmlspecialchars($cuidador['telefono']) ?></p>
-                    <!-- <p><strong>Dirección:</strong> <?= htmlspecialchars($cuidador['direccion']) ?></p> -->
                 </div>
             </div>
 
-            <!-- Contactar -->
-            <a class="btn btn-success w-100 mb-3" 
-               href="https://wa.me/34<?= $cuidador['telefono'] ?>">
+            <!-- CONTACTAR -->
+            <a class="btn btn-whatsapp w-100 mb-3" href="https://wa.me/34<?= $cuidador['telefono'] ?>">
                 Contactar por WhatsApp
             </a>
         </div>
@@ -139,23 +126,24 @@ if ($coords) {
         <!-- COLUMNA DERECHA -->
         <div class="col-md-8">
 
-            <!-- Info cuidador -->
-            <div class="card p-3 mb-4">
+            <!-- INFO CUIDADOR -->
+            <div class="cuidador-profile-block">
                 <h4>Información del cuidador</h4>
                 <p><strong>Barrio:</strong> <?= htmlspecialchars($cuidador['barrio']) ?></p>
                 <p><strong>Experiencia:</strong> <?= htmlspecialchars($cuidador['experiencia'] ?: "No indicada") ?></p>
                 <p><strong>Descripción:</strong><br><?= nl2br(htmlspecialchars($cuidador['descripcion'] ?: "Sin descripción")) ?></p>
             </div>
 
-            <!-- Mapa del barrio -->
-            <div class="card p-3 mb-4">
-                <h4>Zona de trabajo (por barrio)</h4>
-                <div id="map" style="height: 300px; border-radius: 10px;"></div>
+            <!-- MAPA -->
+            <div class="cuidador-profile-block">
+                <h4>Zona de trabajo</h4>
+                <div id="map" style="height: 300px;"></div>
             </div>
 
-            <!-- Servicios -->
-            <div class="card p-3 mb-4">
+            <!-- SERVICIOS -->
+            <div class="cuidador-profile-block">
                 <h4>Servicios que ofrece</h4>
+
                 <?php if ($servicios): ?>
                     <ul class="list-group">
                         <?php foreach ($servicios as $s): ?>
@@ -170,29 +158,14 @@ if ($coords) {
                 <?php endif; ?>
             </div>
 
-            <!-- Disponibilidad -->
-            <div class="card p-3 mb-4">
-                <h4>Días ocupados</h4>
-                <?php if ($ocupadas): ?>
-                    <ul>
-                        <?php foreach ($ocupadas as $o): ?>
-                            <li>❌ Del <strong><?= $o['fecha_inicio'] ?></strong> al <strong><?= $o['fecha_fin'] ?></strong></li>
-                        <?php endforeach; ?>
-                    </ul>
-                <?php else: ?>
-                    <p>Este cuidador no tiene reservas confirmadas.</p>
-                <?php endif; ?>
-            </div>
-
-            <!-- Opiniones -->
-            <div class="card p-3 mb-4">
+            <!-- OPINIONES -->
+            <div class="cuidador-profile-block">
                 <h4>Opiniones (<?= $media ?> ⭐)</h4>
 
                 <?php if ($reviews): ?>
                     <?php foreach ($reviews as $r): ?>
-                        <div class="border rounded p-2 mb-2">
-                            <strong><?= htmlspecialchars($r['usuario_nombre']) ?></strong>
-                            — <?= $r['puntuacion'] ?> ⭐
+                        <div class="review-box">
+                            <strong><?= htmlspecialchars($r['usuario_nombre']) ?></strong> — <?= $r['puntuacion'] ?> ⭐
                             <br>
                             <?= nl2br(htmlspecialchars($r['comentario'])) ?>
                         </div>
@@ -201,7 +174,6 @@ if ($coords) {
                     <p>No tiene opiniones todavía.</p>
                 <?php endif; ?>
 
-                <!-- Formulario para enviar opinión -->
                 <?php if ($usuario_actual && $usuario_actual != $cuidador['usuario_id']): ?>
                     <form method="POST" action="/KaiPets/php/enviar_opinion.php" class="mt-3">
                         <input type="hidden" name="cuidador_id" value="<?= $cuidador['id'] ?>">
@@ -218,7 +190,7 @@ if ($coords) {
                         <label class="form-label">Comentario:</label>
                         <textarea name="comentario" class="form-control mb-2" rows="3"></textarea>
 
-                        <button class="btn btn-primary w-100" style="border-radius:20px;">
+                        <button class="btn btn-reservar w-100">
                             Enviar opinión
                         </button>
                     </form>

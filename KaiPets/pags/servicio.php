@@ -34,7 +34,7 @@ $sql = "
 ";
 
 $stmt = $conn->prepare($sql);
-$stmt->execute([$id_servicio]); // ← AQUÍ EL ARREGLO
+$stmt->execute([$id_servicio]);
 $cuidadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
@@ -46,78 +46,7 @@ $cuidadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/KaiPets/src/css/style.css">
-    <style>
-        .hero-servicio {
-            background: url('/KaiPets/src/img/servicios/<?= $id_servicio ?>.jpg') center/cover no-repeat;
-            height: 600px;
-            border-radius: 20px;
-            margin-top: 20px;
-            position: relative;
-        }
-
-        .hero-overlay {
-            background: rgba(0,0,0,0.45);
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero-overlay h1 {
-            color: white;
-            font-size: 2.8rem;
-            font-weight: bold;
-            text-shadow: 0 0 10px #000;
-        }
-
-        .servicio-desc {
-            max-width: 900px;
-            margin: 40px auto;
-            font-size: 1.2rem;
-            line-height: 1.6;
-        }
-
-        .info-card {
-            background: #fff;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin: 40px auto;
-            max-width: 900px;
-        }
-
-        .cuidador-card {
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: .2s;
-        }
-
-        .cuidador-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-        }
-
-        .cuidador-img {
-            height: 180px;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        .btn-kai {
-            background: #7bbf6a;
-            color: #111;
-            border-radius: 50px;
-            padding: 10px 20px;
-        }
-        .btn-kai:hover {
-            background: #6aaa5b;
-        }
-    </style>
+    <link rel="stylesheet" href="/KaiPets/src/css/servicio.css">
 </head>
 
 <body>
@@ -127,7 +56,8 @@ $cuidadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="container mb-5">
 
     <!-- HERO -->
-    <div class="hero-servicio mb-4">
+    <div class="hero-servicio mb-4"
+         style="background-image: url('/KaiPets/src/img/servicios/<?= $id_servicio ?>.jpg');">
         <div class="hero-overlay">
             <h1><?= htmlspecialchars($servicio['nombre']) ?></h1>
         </div>
@@ -169,13 +99,13 @@ $cuidadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                             <p><strong>Precio desde:</strong> <?= number_format($c['precio_cuidador'], 2) ?> €</p>
 
-                            <a href="/KaiPets/pags/ver_cuidador.php?id=<?= $c['usuario_id'] ?>" class="btn btn-kai w-100 mt-2">
+                            <a href="/KaiPets/pags/ver_cuidador.php?id=<?= $c['usuario_id'] ?>"
+                               class="btn btn-kai w-100 mt-2">
                                 Ver perfil
                             </a>
 
-                            <a href="/KaiPets/pags/reserva.php?cuidador=<?= $c['usuario_id'] ?>&servicio=<?= $id_servicio ?>" 
-                            class="btn btn-primary w-100 mt-2" 
-                            style="border-radius: 50px;">
+                            <a href="/KaiPets/pags/reserva.php?cuidador=<?= $c['usuario_id'] ?>&servicio=<?= $id_servicio ?>"
+                               class="btn btn-primary w-100 mt-2" style="border-radius: 50px;">
                                 Reservar ahora
                             </a>
 
