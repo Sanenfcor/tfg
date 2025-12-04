@@ -4,10 +4,10 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // --- Conexión a la base de datos ---
-$host = '100.72.131.53';
+$host = 'localhost';
 $dbname = 'kaipets';
-$username = 'sanenfcor';
-$password = '0147';
+$username = 'root';
+$password = '';
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
