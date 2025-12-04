@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 04-12-2025 a las 20:10:02
+-- Tiempo de generación: 04-12-2025 a las 22:01:03
 -- Versión del servidor: 10.11.14-MariaDB-0+deb12u2
 -- Versión de PHP: 8.2.29
 
@@ -140,7 +140,8 @@ INSERT INTO `cuidadores` (`id`, `usuario_id`, `ciudad_id`, `barrio`, `descripcio
 (12, 12, 2, 'Barrio 12', 'Cuidador disponible para servicios.', 'Sin experiencia registrada.', '/KaiPets/uploads/predeterminado/pred_dni.jpg', '/KaiPets/uploads/predeterminado/pred_usu.png'),
 (13, 13, 2, 'Barrio 13', 'Cuidador disponible para servicios.', 'Sin experiencia registrada.', '/KaiPets/uploads/predeterminado/pred_dni.jpg', '/KaiPets/uploads/predeterminado/pred_usu.png'),
 (14, 14, 2, 'Barrio 14', 'Cuidador disponible para servicios.', 'Sin experiencia registrada.', '/KaiPets/uploads/predeterminado/pred_dni.jpg', '/KaiPets/uploads/predeterminado/pred_usu.png'),
-(15, 15, 2, 'Barrio 15', 'Cuidador disponible para servicios.', 'Sin experiencia registrada.', '/KaiPets/uploads/predeterminado/pred_dni.jpg', '/KaiPets/uploads/predeterminado/pred_usu.png');
+(15, 15, 2, 'Barrio 15', 'Cuidador disponible para servicios.', 'Sin experiencia registrada.', '/KaiPets/uploads/predeterminado/pred_dni.jpg', '/KaiPets/uploads/predeterminado/pred_usu.png'),
+(16, 2, 1, 'El Palo', 'Cuidador promedio', '', '/KaiPets/uploads/dni/dni_6932031c9a1ac_pred_dni.jpg', '/KaiPets/uploads/perfiles/foto_6932031c9a1b5_pred_usu.jpg');
 
 -- --------------------------------------------------------
 
@@ -345,7 +346,9 @@ CREATE TABLE `reservas` (
 INSERT INTO `reservas` (`id_reserva`, `id_usuario`, `id_cuidador`, `id_mascota`, `id_servicio`, `tipo_reserva`, `fecha_reserva`, `fecha_inicio`, `fecha_fin`, `horas`, `estado_reserva`, `precio_final`, `notas`) VALUES
 (1, 2, 1, 2, 1, 'horas', '2025-12-03 22:07:55', '2025-12-05 00:00:00', '2025-12-05 23:59:59', 2, 'confirmada', NULL, 'Suelta mucho pelo'),
 (2, 4, 1, 3, 1, 'horas', '2025-12-04 01:38:30', '2025-12-04 00:00:00', '2025-12-04 23:59:59', 6, 'confirmada', NULL, ''),
-(3, 4, 1, 3, 4, 'dias', '2025-12-04 01:40:39', '2025-12-06 00:00:00', '2025-12-07 23:59:59', NULL, 'cancelada', NULL, '');
+(3, 4, 1, 3, 4, 'dias', '2025-12-04 01:40:39', '2025-12-06 00:00:00', '2025-12-07 23:59:59', NULL, 'cancelada', NULL, ''),
+(4, 1, 3, 1, 1, 'dias', '2025-12-04 22:52:19', '2025-12-04 00:00:00', '2025-12-05 23:59:59', NULL, 'confirmada', 30.00, ''),
+(5, 1, 2, 1, 1, 'dias', '2025-12-04 22:53:18', '2025-12-09 00:00:00', '2025-12-11 23:59:59', NULL, 'pendiente', 40.00, '');
 
 -- --------------------------------------------------------
 
@@ -397,21 +400,21 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `apellido`, `email`, `password`, `telefono`, `direccion`, `registro`, `terminos`, `admin`, `cuidador`, `ciudad_id`) VALUES
-(1, 'Santiago', 'Enfedaque', 'sanenfcor@gmail.com', '$2y$10$6bEisPQ85XNd4DqJRBIEou7uln5ifpEWMauA6OVlcHz.pVaLxhovq', 123456789, 'Cuarteles', '2025-11-26 10:58:09', 1, 1, 1, 1),
-(2, 'Cuidador', '1', 'cuidador1@gmail.com', '$2y$10$f53V5SRLAFqAqxhRyPkwweRnkIMQ0XTi.r4AOqjvejQVZaTp0FVgm', 123456789, 'Alameda', '2025-11-29 18:40:46', 1, 0, 0, 1),
-(3, 'Cuidador', '2', 'cuidador2@gmail.com', '$2y$10$J9Ttx7bbdrxiJQXTb2Vl1OSAhJVhzS/Hr5an0tIE5GNpF0bK.mWwq', 123456789, 'Larios', '2025-11-29 18:41:27', 1, 0, 0, 1),
-(4, 'Cuidador', '3', 'cuidador3@gmail.com', '$2y$10$eucaOf2LyhiWkuEk6wJwee./75RQ5DpqwirHnVaddHXuwYdf7zdgu', 123456789, 'Carranque', '2025-12-01 13:03:51', 1, 0, 0, 1),
-(5, 'Cuidador', '4', 'cuidador4@gmail.com', '$2y$10$xNEVfPmlALshY3SvXQ9wCOVLFFto7S2kaCQgVyDxWa4t6xp7ePaki', 123456789, 'El Palo', '2025-12-01 13:06:02', 1, 0, 0, 1),
-(6, 'Cuidador', '5', 'cuidador5@gmail.com', '$2y$10$B9wVSnSTbi0ifsRx8iCeeu.LdpDyNh/lgLPlsH/hGXL.zneaRxSNG', 60000005, 'Andalucia', '2025-12-04 01:56:05', 1, 0, 0, 3),
-(7, 'Cuidador', '6', 'cuidador6@gmail.com', '$2y$10$xw8HNUb4CJBEpwrWiMOPxeoh70NQwctE1KpGRzgJju1MuKBkm2D7i', 60000006, 'Andalucia', '2025-12-04 01:56:06', 1, 0, 0, 3),
-(8, 'Cuidador', '7', 'cuidador7@gmail.com', '$2y$10$6xuulC.EIwfTy3oSx88VFeVgzw9BJgkxgbtmsP0RpWjeglExKwYAy', 60000007, 'Andalucia', '2025-12-04 01:56:06', 1, 0, 0, 3),
-(9, 'Cuidador', '8', 'cuidador8@gmail.com', '$2y$10$dc8dFNL27EHIWqkBAr9.k.HmHBZFyS8w5GapT4Z6jZV9NPG/M9hw2', 60000008, 'Andalucia', '2025-12-04 01:56:06', 1, 0, 0, 3),
-(10, 'Cuidador', '9', 'cuidador9@gmail.com', '$2y$10$sFJITzhuSbEWfTR9VhxQ0e2GegYJ6ZTB.dLAniJmE4Lk8GxZuQnrm', 60000009, 'Andalucia', '2025-12-04 01:56:07', 1, 0, 0, 3),
-(11, 'Cuidador', '10', 'cuidador10@gmail.com', '$2y$10$Gbu2LgIx5N77qmWp1FWoi.C.qt2ocEocZAJ/Go9bYdYl3j.lK/zkO', 60000010, 'Andalucia', '2025-12-04 01:59:45', 1, 0, 0, 2),
-(12, 'Cuidador', '11', 'cuidador11@gmail.com', '$2y$10$8K2Ey5NWqQypzKw.mR2TwuFSmTUgppWm2ueehWX77phWiMEQRDG9m', 60000011, 'Andalucia', '2025-12-04 01:59:46', 1, 0, 0, 2),
-(13, 'Cuidador', '12', 'cuidador12@gmail.com', '$2y$10$0rGM.kK6S8gsqnX73ZU0fub5USdJzfNDuLzVb9Q5L/vdWF3IaadIG', 60000012, 'Andalucia', '2025-12-04 01:59:46', 1, 0, 0, 2),
-(14, 'Cuidador', '13', 'cuidador13@gmail.com', '$2y$10$LArxuV76ay7ryMEk3DIwZubxnWH7uRHTbAtY/xx3WEjor39mKeKlO', 60000013, 'Andalucia', '2025-12-04 01:59:46', 1, 0, 0, 2),
-(15, 'Cuidador', '14', 'cuidador14@gmail.com', '$2y$10$qPeGQYRqKlvL8DREWx4nu.siyktYFy516glyXa5qHGIki6rzu5Hz6', 60000014, 'Andalucia', '2025-12-04 01:59:46', 1, 0, 0, 2);
+(1, 'Santiago', 'Enfedaque', 'sanenfcor@gmail.com', '$2y$10$6bEisPQ85XNd4DqJRBIEou7uln5ifpEWMauA6OVlcHz.pVaLxhovq', 123456789, 'Cuarteles 37', '2025-11-26 10:58:09', 1, 1, 1, 1),
+(2, 'Cuidador', '1', 'cuidador1@gmail.com', '$2y$10$f53V5SRLAFqAqxhRyPkwweRnkIMQ0XTi.r4AOqjvejQVZaTp0FVgm', 123456789, 'Alameda', '2025-11-29 18:40:46', 1, 0, 1, 1),
+(3, 'Cuidador', '2', 'cuidador2@gmail.com', '$2y$10$J9Ttx7bbdrxiJQXTb2Vl1OSAhJVhzS/Hr5an0tIE5GNpF0bK.mWwq', 123456789, 'Larios', '2025-11-29 18:41:27', 1, 0, 1, 1),
+(4, 'Cuidador', '3', 'cuidador3@gmail.com', '$2y$10$eucaOf2LyhiWkuEk6wJwee./75RQ5DpqwirHnVaddHXuwYdf7zdgu', 123456789, 'Carranque', '2025-12-01 13:03:51', 1, 0, 1, 1),
+(5, 'Cuidador', '4', 'cuidador4@gmail.com', '$2y$10$xNEVfPmlALshY3SvXQ9wCOVLFFto7S2kaCQgVyDxWa4t6xp7ePaki', 123456789, 'El Palo', '2025-12-01 13:06:02', 1, 0, 1, 1),
+(6, 'Cuidador', '5', 'cuidador5@gmail.com', '$2y$10$B9wVSnSTbi0ifsRx8iCeeu.LdpDyNh/lgLPlsH/hGXL.zneaRxSNG', 60000005, 'Andalucia', '2025-12-04 01:56:05', 1, 0, 1, 3),
+(7, 'Cuidador', '6', 'cuidador6@gmail.com', '$2y$10$xw8HNUb4CJBEpwrWiMOPxeoh70NQwctE1KpGRzgJju1MuKBkm2D7i', 60000006, 'Andalucia', '2025-12-04 01:56:06', 1, 0, 1, 3),
+(8, 'Cuidador', '7', 'cuidador7@gmail.com', '$2y$10$6xuulC.EIwfTy3oSx88VFeVgzw9BJgkxgbtmsP0RpWjeglExKwYAy', 60000007, 'Andalucia', '2025-12-04 01:56:06', 1, 0, 1, 3),
+(9, 'Cuidador', '8', 'cuidador8@gmail.com', '$2y$10$dc8dFNL27EHIWqkBAr9.k.HmHBZFyS8w5GapT4Z6jZV9NPG/M9hw2', 60000008, 'Andalucia', '2025-12-04 01:56:06', 1, 0, 1, 3),
+(10, 'Cuidador', '9', 'cuidador9@gmail.com', '$2y$10$sFJITzhuSbEWfTR9VhxQ0e2GegYJ6ZTB.dLAniJmE4Lk8GxZuQnrm', 60000009, 'Andalucia', '2025-12-04 01:56:07', 1, 0, 1, 3),
+(11, 'Cuidador', '10', 'cuidador10@gmail.com', '$2y$10$Gbu2LgIx5N77qmWp1FWoi.C.qt2ocEocZAJ/Go9bYdYl3j.lK/zkO', 60000010, 'Andalucia', '2025-12-04 01:59:45', 1, 0, 1, 2),
+(12, 'Cuidador', '11', 'cuidador11@gmail.com', '$2y$10$8K2Ey5NWqQypzKw.mR2TwuFSmTUgppWm2ueehWX77phWiMEQRDG9m', 60000011, 'Andalucia', '2025-12-04 01:59:46', 1, 0, 1, 2),
+(13, 'Cuidador', '12', 'cuidador12@gmail.com', '$2y$10$0rGM.kK6S8gsqnX73ZU0fub5USdJzfNDuLzVb9Q5L/vdWF3IaadIG', 60000012, 'Andalucia', '2025-12-04 01:59:46', 1, 0, 1, 2),
+(14, 'Cuidador', '13', 'cuidador13@gmail.com', '$2y$10$LArxuV76ay7ryMEk3DIwZubxnWH7uRHTbAtY/xx3WEjor39mKeKlO', 60000013, 'Andalucia', '2025-12-04 01:59:46', 1, 0, 1, 2),
+(15, 'Cuidador', '14', 'cuidador14@gmail.com', '$2y$10$qPeGQYRqKlvL8DREWx4nu.siyktYFy516glyXa5qHGIki6rzu5Hz6', 60000014, 'Andalucia', '2025-12-04 01:59:46', 1, 0, 1, 2);
 
 --
 -- Índices para tablas volcadas
@@ -520,7 +523,7 @@ ALTER TABLE `ciudades`
 -- AUTO_INCREMENT de la tabla `cuidadores`
 --
 ALTER TABLE `cuidadores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `cuidador_servicio`
@@ -556,7 +559,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `reservas`
 --
 ALTER TABLE `reservas`
-  MODIFY `id_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_reserva` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `servicios`
