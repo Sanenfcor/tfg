@@ -4,9 +4,6 @@ error_reporting(E_ALL);
 
 session_start();
 
-// ===============================
-// 1️⃣ Validar login
-// ===============================
 if (empty($_SESSION['usuario'])) {
     header("Location: /KaiPets/login.php");
     exit;
@@ -18,15 +15,13 @@ $id_usuario  = $_SESSION['usuario']['id'];
 $id_cuidador = isset($_GET['cuidador']) ? intval($_GET['cuidador']) : 0;
 $id_servicio = isset($_GET['servicio']) ? intval($_GET['servicio']) : 0;
 
-if ($id_cuidador <= 0 || $id_servicio <= 0) {
-    die("<h2>Error: Datos inválidos.</h2>");
+if ($id_cuidador <= 0) {
+    die("<h2>Error: cuidador inválido.</h2>");
 }
 
-// ===============================
-// 2️⃣ Obtener datos del cuidador
-// ===============================
+/* Obtener datos del cuidador */
 $stmt = $conn->prepare("
-    SELECT u.nombre, u.apellido, c.foto_perfil, c.barrio
+    SELECT u.nombre, u.apellido, c.foto_perfil, c.barrio, c.usuario_id
     FROM cuidadores c
     JOIN usuarios u ON u.id = c.usuario_id
     WHERE c.usuario_id = :id
@@ -34,36 +29,27 @@ $stmt = $conn->prepare("
 $stmt->execute([':id' => $id_cuidador]);
 $cuidador = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (!$cuidador) {
-    die("<h2>El cuidador no existe.</h2>");
-}
+if (!$cuidador) die("<h2>El cuidador no existe.</h2>");
 
-// ===============================
-// 3️⃣ Obtener datos del servicio
-// ===============================
+/* Obtener servicios que ofrece este cuidador */
 $stmt = $conn->prepare("
-    SELECT nombre, descripcion, precio
-    FROM servicios
-    WHERE id_servicio = :id
+    SELECT s.id_servicio, s.nombre, cs.precio 
+    FROM cuidador_servicio cs
+    JOIN servicios s ON s.id_servicio = cs.servicio_id
+    WHERE cs.cuidador_id = :id
 ");
-$stmt->execute([':id' => $id_servicio]);
-$servicio = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt->execute([':id' => $id_cuidador]);
+$lista_servicios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-if (!$servicio) {
-    die("<h2>El servicio no existe.</h2>");
+/* Si NO se eligió un servicio, mostrar selector */
+$mostrar_selector = ($id_servicio == 0);
+
+/* Si ya hay servicio, recogerlo */
+if (!$mostrar_selector) {
+    $stmt = $conn->prepare("SELECT nombre, descripcion FROM servicios WHERE id_servicio = :id");
+    $stmt->execute([':id' => $id_servicio]);
+    $servicio = $stmt->fetch(PDO::FETCH_ASSOC);
 }
-
-// ===============================
-// 4️⃣ Obtener mascotas del usuario
-// ===============================
-$stmt = $conn->prepare("
-    SELECT id, nombre, especie, raza
-    FROM mascotas
-    WHERE usuario_id = :id
-");
-$stmt->execute([':id' => $id_usuario]);
-$mascotas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -79,7 +65,7 @@ $mascotas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="container my-5">
 
-    <h2 class="mb-4">Reservar: <?= htmlspecialchars($servicio['nombre']) ?></h2>
+    <h2 class="mb-4">Reservar cuidador</h2>
 
     <!-- INFO DEL CUIDADOR -->
     <div class="card mb-4 p-3">
@@ -93,7 +79,37 @@ $mascotas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <!-- FORMULARIO DE RESERVA -->
+    <?php if ($mostrar_selector): ?>
+
+        <!-- SELECCIONAR SERVICIO -->
+        <div class="card p-4">
+            <h4 class="mb-3">Selecciona un servicio</h4>
+
+            <?php foreach ($lista_servicios as $srv): ?>
+                <a href="/KaiPets/pags/reserva.php?cuidador=<?= $id_cuidador ?>&servicio=<?= $srv['id_servicio'] ?>"
+                   class="btn btn-outline-primary w-100 mb-2" style="border-radius:20px;">
+                    <?= htmlspecialchars($srv['nombre']) ?> — <?= $srv['precio'] ?>€
+                </a>
+            <?php endforeach; ?>
+        </div>
+
+        <?php include "../componentes/footer.php"; ?>
+        </body>
+        </html>
+        <?php exit; ?>
+
+    <?php endif; ?>
+
+    <!-- FORMULARIO REAL DE RESERVA (solo si hay servicio seleccionado) -->
+    <h4 class="mb-4">Servicio: <?= htmlspecialchars($servicio['nombre']) ?></h4>
+
+    <?php
+    /* Obtener mascotas del usuario */
+    $stmt = $conn->prepare("SELECT id, nombre, especie FROM mascotas WHERE usuario_id = :id");
+    $stmt->execute([':id' => $id_usuario]);
+    $mascotas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    ?>
+
     <form action="/KaiPets/php/reserva_guardar.php" method="POST" class="card p-4">
 
         <input type="hidden" name="cuidador" value="<?= $id_cuidador ?>">
@@ -101,23 +117,15 @@ $mascotas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <!-- MASCOTA -->
         <div class="mb-3">
-            <label class="form-label">Selecciona tu mascota</label>
-
-            <?php if (empty($mascotas)): ?>
-                <p class="text-danger">
-                    No tienes mascotas registradas.  
-                    <a href="/KaiPets/pags/anadir_mascota.php" class="btn btn-sm btn-success">Añadir mascota</a>
-                </p>
-            <?php else: ?>
-                <select class="form-select" name="id_mascota" required>
-                    <option value="">Selecciona una mascota</option>
-                    <?php foreach ($mascotas as $m): ?>
-                        <option value="<?= $m['id'] ?>">
-                            <?= htmlspecialchars($m['nombre']) ?> (<?= htmlspecialchars($m['especie']) ?>)
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            <?php endif; ?>
+            <label class="form-label">Mascota</label>
+            <select name="id_mascota" class="form-select" required>
+                <option value="">Selecciona una mascota</option>
+                <?php foreach ($mascotas as $m): ?>
+                    <option value="<?= $m['id'] ?>">
+                        <?= htmlspecialchars($m['nombre']) ?> (<?= htmlspecialchars($m['especie']) ?>)
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
 
         <!-- TIPO DE RESERVA -->
@@ -129,43 +137,28 @@ $mascotas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </select>
         </div>
 
-        <!-- RESERVA POR DIAS -->
         <div id="reserva_dias">
-            <div class="mb-3">
-                <label class="form-label">Fecha inicio</label>
-                <input type="date" name="fecha_inicio" class="form-control">
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Fecha fin</label>
-                <input type="date" name="fecha_fin" class="form-control">
-            </div>
+            <label class="form-label">Fecha inicio</label>
+            <input type="date" name="fecha_inicio" class="form-control mb-2">
+            <label class="form-label">Fecha fin</label>
+            <input type="date" name="fecha_fin" class="form-control">
         </div>
 
-        <!-- RESERVA POR HORAS -->
         <div id="reserva_horas" style="display:none;">
-            <div class="mb-3">
-                <label class="form-label">Fecha</label>
-                <input type="date" name="fecha_unica" class="form-control">
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Horas</label>
-                <input type="number" min="1" max="24" name="horas" class="form-control">
-            </div>
+            <label class="form-label">Fecha</label>
+            <input type="date" name="fecha_unica" class="form-control mb-2">
+            <label class="form-label">Horas</label>
+            <input type="number" min="1" max="24" name="horas" class="form-control">
         </div>
 
-        <!-- NOTAS -->
         <div class="mb-3">
-            <label class="form-label">Notas adicionales (opcional)</label>
-            <textarea class="form-control" name="notas" rows="3"></textarea>
+            <label class="form-label">Notas (opcional)</label>
+            <textarea name="notas" class="form-control"></textarea>
         </div>
 
-        <button class="btn btn-primary w-100" style="border-radius: 50px; font-size: 18px; padding: 12px;">
-            Confirmar reserva
-        </button>
-
+        <button class="btn btn-primary w-100" style="border-radius:20px;">Confirmar reserva</button>
     </form>
+
 </div>
 
 <script>

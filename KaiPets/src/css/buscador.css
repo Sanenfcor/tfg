@@ -1,0 +1,117 @@
+/* ======================================
+   PALETA DE COLORES (MISMA QUE STYLE.CSS)
+====================================== */
+:root {
+    --verde-oscuro: #3E6B48;
+    --verde-claro: #809257;
+    --marron-oscuro: #8B5E3C;
+    --marron-claro: #C7A27C;
+    --crema: #F7F2E8;
+    --blanco: #FFFDF8;
+    --negro: #1e1c19;
+}
+
+/* ======================================
+   CONTENEDOR DE BÚSQUEDA
+====================================== */
+.buscador-card {
+    background: var(--blanco);
+    border: 2px solid var(--marron-claro);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.10);
+}
+
+.buscador-card label {
+    font-weight: 600;
+    color: var(--marron-oscuro);
+}
+
+.buscador-card input,
+.buscador-card select {
+    border-radius: 12px;
+    border: 2px solid var(--marron-claro);
+    background: var(--crema);
+    color: var(--negro);
+}
+
+.buscador-card input:focus,
+.buscador-card select:focus {
+    border-color: var(--verde-oscuro);
+    box-shadow: 0 0 0 0.2rem rgba(62, 107, 72, 0.25);
+    background: #fff;
+}
+
+/* BOTÓN DE BUSCAR */
+.btn-kai-search {
+    background: var(--verde-oscuro);
+    color: var(--blanco);
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 15px;
+}
+
+.btn-kai-search:hover {
+    background: var(--verde-claro);
+}
+
+/* ======================================
+   RESULTADOS
+====================================== */
+.resultados-title {
+    color: var(--verde-oscuro);
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+/* TARJETAS */
+.busqueda-card {
+    background: var(--blanco);
+    border-radius: 22px;
+    border: 2px solid var(--marron-claro);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all .25s;
+}
+
+.busqueda-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+.busqueda-img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+    border-bottom: 3px solid var(--marron-oscuro);
+}
+
+.busqueda-body h5 {
+    color: var(--marron-oscuro);
+    font-weight: 700;
+}
+
+.busqueda-body p {
+    color: var(--negro);
+}
+
+/* BOTÓN VER PERFIL */
+.btn-ver-perfil {
+    background: var(--marron-oscuro);
+    color: var(--blanco);
+    border-radius: 12px;
+    font-weight: 700;
+}
+
+.btn-ver-perfil:hover {
+    background: var(--marron-claro);
+}
+
+/* VALORACIÓN */
+.valoracion-stars {
+    font-size: 1.2rem;
+    color: #d4a64f;
+    font-weight: bold;
+}

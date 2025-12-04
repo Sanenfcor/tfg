@@ -71,12 +71,20 @@ if ($reviews) {
     $media = round($total / count($reviews), 1);
 }
 
-// Mapa por barrio (sin ubicación exacta)
-$mapa_url = "https://staticmap.openstreetmap.de/staticmap.php?center=" .
-            urlencode($cuidador['barrio']) .
-            "&zoom=14&size=800x300&markers=" .
-            urlencode($cuidador['barrio']) .
-            ",lightblue1";
+// Buscar coordenadas del barrio en la tabla
+$sql_coords = "SELECT lat, lon FROM barrios WHERE nombre = :b LIMIT 1";
+$stmt = $conn->prepare($sql_coords);
+$stmt->execute([':b' => $cuidador['barrio']]);
+$coords = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($coords) {
+    $lat = $coords['lat'];
+    $lon = $coords['lon'];
+} else {
+    // Fallback si el barrio no existe
+    $lat = 36.7213; // Málaga centro
+    $lon = -4.4213;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -87,6 +95,8 @@ $mapa_url = "https://staticmap.openstreetmap.de/staticmap.php?center=" .
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/KaiPets/src/css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 
 <body>
@@ -99,10 +109,9 @@ $mapa_url = "https://staticmap.openstreetmap.de/staticmap.php?center=" .
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Cuidador: <?= htmlspecialchars($cuidador['nombre'] . ' ' . $cuidador['apellido']) ?></h2>
 
-        <a href="/KaiPets/pags/reserva.php?cuidador=<?= $cuidador['usuario_id'] ?>" 
-           class="btn btn-primary" style="border-radius:20px;">
-            Reservar ahora
-        </a>
+        <button class="btn btn-primary" onclick="abrirReserva(<?= $cuidador['usuario_id'] ?>)">
+            Reservar cuidador
+        </button>
     </div>
 
     <div class="row">
@@ -141,7 +150,7 @@ $mapa_url = "https://staticmap.openstreetmap.de/staticmap.php?center=" .
             <!-- Mapa del barrio -->
             <div class="card p-3 mb-4">
                 <h4>Zona de trabajo (por barrio)</h4>
-                <img src="<?= $mapa_url ?>" class="img-fluid rounded border">
+                <div id="map" style="height: 300px; border-radius: 10px;"></div>
             </div>
 
             <!-- Servicios -->
@@ -221,5 +230,31 @@ $mapa_url = "https://staticmap.openstreetmap.de/staticmap.php?center=" .
 </div>
 
 <?php include __DIR__ . '/../componentes/footer.php'; ?>
+
+<script>
+function abrirReserva(idCuidador) {
+    window.location.href = "/KaiPets/pags/reserva.php?cuidador=" + idCuidador;
+}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const lat = <?= $lat ?>;
+    const lon = <?= $lon ?>;
+
+    const map = L.map('map').setView([lat, lon], 14);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    L.marker([lat, lon])
+        .addTo(map)
+        .bindPopup("<?= htmlspecialchars($cuidador['barrio']) ?>")
+        .openPopup();
+});
+</script>
+
 </body>
 </html>

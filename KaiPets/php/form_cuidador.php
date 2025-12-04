@@ -21,25 +21,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // VALIDACIÓN DE ARCHIVOS
     // =====================================================
 
-    // Carpetas donde se guardarán imágenes
     $dir_dni     = "../uploads/dni/";
     $dir_perfil  = "../uploads/perfiles/";
 
-    // Crear carpetas si no existen
     if (!is_dir($dir_dni)) mkdir($dir_dni, 0755, true);
     if (!is_dir($dir_perfil)) mkdir($dir_perfil, 0755, true);
 
-    // --- Validar DNI ---
     if (!isset($_FILES['dni_foto']) || $_FILES['dni_foto']['error'] !== 0) {
         die("Error: Debes subir una foto del DNI.");
     }
 
-    // --- Validar Foto personal ---
     if (!isset($_FILES['foto_perfil']) || $_FILES['foto_perfil']['error'] !== 0) {
         die("Error: Debes subir una foto personal.");
     }
 
-    // Validar extensiones
     $extensiones = ['jpg','jpeg','png','webp'];
 
     function validar_extension($file) {
@@ -48,26 +43,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         return in_array($ext, $extensiones);
     }
 
-    if (!validar_extension($_FILES['dni_foto'])) {
-        die("Formato de DNI no válido. Solo JPG, PNG o WEBP.");
-    }
+    if (!validar_extension($_FILES['dni_foto'])) die("Formato DNI no válido.");
+    if (!validar_extension($_FILES['foto_perfil'])) die("Formato foto no válido.");
 
-    if (!validar_extension($_FILES['foto_perfil'])) {
-        die("Formato de foto personal no válido. Solo JPG, PNG o WEBP.");
-    }
-
-    // --- Guardar archivos ---
-    $dni_nombre = uniqid("dni_") . "_" . basename($_FILES['dni_foto']['name']);
+    $dni_nombre  = uniqid("dni_")  . "_" . basename($_FILES['dni_foto']['name']);
     $foto_nombre = uniqid("foto_") . "_" . basename($_FILES['foto_perfil']['name']);
 
-    $dni_ruta = $dir_dni . $dni_nombre;
+    $dni_ruta  = $dir_dni . $dni_nombre;
     $foto_ruta = $dir_perfil . $foto_nombre;
 
     move_uploaded_file($_FILES['dni_foto']['tmp_name'], $dni_ruta);
     move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $foto_ruta);
 
-    // Convertir rutas a formato accesible desde la web
-    $dni_url = "/KaiPets/uploads/dni/" . $dni_nombre;
+    $dni_url  = "/KaiPets/uploads/dni/" . $dni_nombre;
     $foto_url = "/KaiPets/uploads/perfiles/" . $foto_nombre;
 
     // =====================================================
@@ -83,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->execute([
         ':uid' => $usuario['id'],
         ':cid' => $_POST['ciudad_id'],
-        ':barrio' => $_POST['barrio'],
+        ':barrio' => $_POST['barrio_id'],
         ':descripcion' => $_POST['descripcion'],
         ':exp' => $_POST['experiencia'],
         ':dni' => $dni_url,
@@ -101,6 +89,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Convertirse en Cuidador</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/KaiPets/src/css/style.css">
+
+    <script>
+    function cargarBarrios() {
+        let ciudad = document.getElementById("ciudad_select").value;
+        let barrioSelect = document.getElementById("barrio_select");
+
+        // Vaciar dropdown
+        barrioSelect.innerHTML = '<option value="">Cargando...</option>';
+
+        fetch(`/KaiPets/php/get_barrios.php?ciudad_id=` + ciudad)
+            .then(res => res.json())
+            .then(data => {
+                barrioSelect.innerHTML = '<option value="">Seleccione un barrio...</option>';
+                data.forEach(b => {
+                    barrioSelect.innerHTML += `<option value="${b.nombre}">${b.nombre}</option>`;
+                });
+            });
+    }
+    </script>
+
 </head>
 <body>
 
@@ -111,9 +119,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <form action="form_cuidador.php" method="POST" enctype="multipart/form-data">
 
+        <!-- CIUDAD -->
         <div class="mb-3">
             <label class="form-label">Ciudad</label>
-            <select name="ciudad_id" class="form-select" required>
+            <select name="ciudad_id" id="ciudad_select" class="form-select" required onchange="cargarBarrios()">
                 <option value="">Seleccione una ciudad...</option>
                 <?php foreach ($ciudades as $c): ?>
                     <option value="<?= $c['id'] ?>"><?= htmlspecialchars($c['nombre']) ?></option>
@@ -121,34 +130,40 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </select>
         </div>
 
+        <!-- BARRIOS DINÁMICOS -->
         <div class="mb-3">
             <label class="form-label">Barrio</label>
-            <input type="text" name="barrio" class="form-control" required>
+            <select name="barrio_id" id="barrio_select" class="form-select" required>
+                <option value="">Seleccione primero una ciudad...</option>
+            </select>
         </div>
 
+        <!-- DESCRIPCION -->
         <div class="mb-3">
             <label class="form-label">Descripción</label>
             <textarea name="descripcion" class="form-control" rows="3" required></textarea>
         </div>
 
+        <!-- EXPERIENCIA -->
         <div class="mb-3">
             <label class="form-label">Experiencia</label>
             <input type="text" name="experiencia" class="form-control">
         </div>
 
-        <!-- FOTO DNI -->
+        <!-- DNI -->
         <div class="mb-3">
-            <label class="form-label">Foto del DNI (obligatoria)</label>
-            <input type="file" name="dni_foto" class="form-control" accept="image/*" required>
+            <label class="form-label">Foto del DNI</label>
+            <input type="file" name="dni_foto" class="form-control" required>
         </div>
 
-        <!-- FOTO PERSONAL -->
+        <!-- FOTO PERFIL -->
         <div class="mb-3">
-            <label class="form-label">Foto personal (obligatoria)</label>
-            <input type="file" name="foto_perfil" class="form-control" accept="image/*" required>
+            <label class="form-label">Foto personal</label>
+            <input type="file" name="foto_perfil" class="form-control" required>
         </div>
 
         <button class="btn btn-success">Convertirme en Cuidador</button>
+
     </form>
 </div>
 

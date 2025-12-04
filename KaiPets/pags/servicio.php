@@ -8,9 +8,6 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once __DIR__ . '/../php/conn_db.php';
 
-// ===============================
-// 1️⃣ Validar ID
-// ===============================
 $id_servicio = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($id_servicio <= 0) {
@@ -18,9 +15,6 @@ if ($id_servicio <= 0) {
     exit;
 }
 
-// ===============================
-// 2️⃣ Obtener info del servicio
-// ===============================
 $stmt = $conn->prepare("SELECT * FROM servicios WHERE id_servicio = :id");
 $stmt->execute([':id' => $id_servicio]);
 $servicio = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -30,9 +24,6 @@ if (!$servicio) {
     exit;
 }
 
-// ===============================
-// 3️⃣ Obtener cuidadores que lo ofrecen
-// ===============================
 $sql = "
     SELECT c.*, u.nombre, u.apellido, cs.precio AS precio_cuidador, ci.nombre AS ciudad
     FROM cuidadores c
@@ -55,8 +46,78 @@ $cuidadores = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/KaiPets/src/css/style.css">
-    <link rel="stylesheet" href="/KaiPets/src/css/servicios.css">
+    <style>
+        .hero-servicio {
+            background: url('/KaiPets/src/img/servicios/<?= $id_servicio ?>.jpg') center/cover no-repeat;
+            height: 600px;
+            border-radius: 20px;
+            margin-top: 20px;
+            position: relative;
+        }
 
+        .hero-overlay {
+            background: rgba(0,0,0,0.45);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-overlay h1 {
+            color: white;
+            font-size: 2.8rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px #000;
+        }
+
+        .servicio-desc {
+            max-width: 900px;
+            margin: 40px auto;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .info-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 40px auto;
+            max-width: 900px;
+        }
+
+        .cuidador-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: .2s;
+        }
+
+        .cuidador-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .cuidador-img {
+            height: 180px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .btn-kai {
+            background: #7bbf6a;
+            color: #111;
+            border-radius: 50px;
+            padding: 10px 20px;
+        }
+        .btn-kai:hover {
+            background: #6aaa5b;
+        }
+    </style>
 </head>
 
 <body>
