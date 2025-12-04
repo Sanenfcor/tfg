@@ -1,0 +1,302 @@
+/* =====================================================
+   VARIABLES DE ESTILO KaiPets
+   ===================================================== */
+:root {
+    --crema: #f8f4ec;
+    --marron: #a67341;
+    --marron-oscuro: #6b4a2b;
+    --verde: #3d8b46;
+    --verde-claro: #52a85a;
+    --gris: #ececec;
+    --texto: #3a3a3a;
+}
+
+/* =====================================================
+   FORMULARIOS KaiPets
+   (modificar_usuarios.php, registro, login, perfil)
+   ===================================================== */
+
+/* Contenedor general */
+.main-content {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* Puede usarse junto con .container */
+.container {
+    display: block;
+    width: 100%;
+}
+
+/* Tarjeta */
+.form-card {
+    background: var(--crema);
+    border: 1px solid var(--marron-oscuro);
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    margin: 20px auto;
+    width: 100%;
+    max-width: 700px;
+}
+
+/* Título */
+.form-title {
+    color: var(--marron-oscuro);
+    border-left: 6px solid var(--verde);
+    padding-left: 10px;
+    margin-bottom: 20px;
+    font-size: 1.7rem;
+    font-weight: bold;
+}
+
+/* Grupos */
+.form-group {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: var(--marron-oscuro);
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px;
+    border: 1px solid var(--marron);
+    border-radius: 8px;
+    background: white;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--verde);
+    box-shadow: 0 0 4px var(--verde);
+    outline: none;
+}
+
+/* Campo contraseña + icono */
+.input-password-group {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.input-password-group input {
+    flex: 1;
+}
+
+.btn-toggle-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--marron-oscuro);
+    transition: 0.2s;
+}
+
+.btn-toggle-password:hover {
+    color: var(--verde);
+}
+
+/* Select */
+.select-field {
+    cursor: pointer;
+}
+
+/* Información inferior */
+.form-info {
+    background: var(--gris);
+    border-left: 5px solid var(--verde);
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 8px;
+    color: var(--texto);
+}
+
+/* Botones */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    transition: 0.2s;
+}
+
+.btn-primary {
+    background: var(--verde);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--verde-claro);
+}
+
+.btn-secondary {
+    background: var(--marron);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: var(--marron-oscuro);
+}
+
+/* Contenedor de Errores */
+.error-container {
+    background: #fdd;
+    border-left: 5px solid red;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.error-container ul {
+    margin: 0;
+    padding-left: 22px;
+}
+
+.error-container li {
+    color: red;
+}
+
+/* =====================================================
+   NUEVO: ESTILOS PARA perfil.php
+   ===================================================== */
+
+/* Secciones del perfil */
+section {
+    background: var(--crema);
+    border: 1px solid var(--marron-oscuro);
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    margin: 30px auto;
+    width: 100%;
+    max-width: 900px;
+}
+
+/* Títulos generales de secciones */
+section h2 {
+    color: var(--marron-oscuro);
+    border-left: 6px solid var(--verde);
+    padding-left: 12px;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
+/* Información de usuario */
+.Info_Usu p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: var(--texto);
+}
+
+/* Botón cerrar sesión */
+.Boton_Sesion a {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--marron);
+    color: white !important;
+    border-radius: 8px;
+    margin-top: 15px;
+    transition: 0.2s;
+}
+
+.Boton_Sesion a:hover {
+    background: var(--marron-oscuro);
+}
+
+/* Listas */
+section ul, section ol {
+    padding-left: 22px;
+}
+
+section li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* Mascotas */
+.Titulo_Mascotas,
+.titulo_servicios,
+.Titulo_Cuidados {
+    border-left: 6px solid var(--verde);
+    padding-left: 12px;
+}
+
+/* Tabla admin */
+.lista-usuarios-admin {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.lista-usuarios-admin th,
+.lista-usuarios-admin td {
+    padding: 10px;
+    border: 1px solid var(--marron-oscuro);
+}
+
+.lista-usuarios-admin th {
+    background: var(--marron);
+    color: white;
+}
+
+.lista-usuarios-admin tr:nth-child(even) {
+    background: var(--gris);
+}
+
+.enlace-accion {
+    color: var(--verde);
+    font-weight: bold;
+}
+
+.enlace-accion:hover {
+    color: var(--verde-claro);
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+@media (max-width: 600px) {
+    .form-card {
+        padding: 18px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .form-title {
+        font-size: 1.4rem;
+    }
+
+    section {
+        padding: 18px;
+    }
+
+    section h2 {
+        font-size: 1.5rem;
+    }
+}

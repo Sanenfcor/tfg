@@ -1,0 +1,16 @@
+{
+    "name": "enfedaque/kai-pets",
+    "autoload": {
+        "psr-4": {
+            "Enfedaque\\KaiPets\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "enfedaque"
+        }
+    ],
+    "require": {
+        "resend/resend-php": "^1.1"
+    }
+}
